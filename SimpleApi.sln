@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36915.13 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleApi", "SimpleApi\SimpleApi.csproj", "{1D018E89-82AF-491B-92F4-92276EAD1DBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleApi.Data", "SimpleApi.Data\SimpleApi.Data.csproj", "{95B5FD4A-0BB2-41BA-A93A-D15433A4D6FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1D018E89-82AF-491B-92F4-92276EAD1DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D018E89-82AF-491B-92F4-92276EAD1DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D018E89-82AF-491B-92F4-92276EAD1DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B5FD4A-0BB2-41BA-A93A-D15433A4D6FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B5FD4A-0BB2-41BA-A93A-D15433A4D6FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B5FD4A-0BB2-41BA-A93A-D15433A4D6FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B5FD4A-0BB2-41BA-A93A-D15433A4D6FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
