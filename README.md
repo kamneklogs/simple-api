@@ -55,11 +55,16 @@ Todos los endpoints (excepto `/api/auth/login`) requieren un token JWT en el hea
   "token": "jwt_token"
 }
 ```
+<img width="1498" height="396" alt="image" src="https://github.com/user-attachments/assets/35be4ece-3fd5-4cf7-87cc-8014fe1d967c" />
+<img width="1462" height="305" alt="image" src="https://github.com/user-attachments/assets/90fdda29-b6b7-4fa2-8f34-03e19e6cc11e" />
 
-**Usar el token en las peticiones:**
+
+**Usar el token en las peticiones (o agregarlo en todas las request de Swagger usando el Authorize button):**
 ```
 Authorization: Bearer <jwt_token>
 ```
+<img width="1578" height="624" alt="image" src="https://github.com/user-attachments/assets/dc5abaa4-4580-4477-8af3-16d6685e7e26" />
+
 
 > **Nota:** Las credenciales `admin/admin` son solo para demostración. En una aplicación real, la autenticación debería delegarse a un proveedor de identidad como Azure AD.
 
