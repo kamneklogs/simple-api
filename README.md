@@ -177,4 +177,7 @@ Authorization: Bearer <jwt_token>
 dotnet test
 ```
 
-Los tests usan una base de datos en memoria (sin dependencias externas).
+## Notas generales
+- Test unitarios creados como extra, los cuales usan una base de datos en memoria (sin dependencias externas).
+- En una aplicación real, la autenticación debería delegarse a un proveedor de identidad como Azure AD o un Auth Service dedicado
+- Algunos servicios usan AutoMapper para demostración, aunque personalemnte prefiero mapear manualmente para mayor control y mejor performance

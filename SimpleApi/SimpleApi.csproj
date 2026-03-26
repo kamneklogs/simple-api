@@ -21,4 +21,8 @@
     <ProjectReference Include="..\SimpleApi.Service\SimpleApi.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+  </ItemGroup>
+
 </Project>
