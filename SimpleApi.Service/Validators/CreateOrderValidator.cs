@@ -33,5 +33,19 @@ public class CreateOrderValidator : AbstractValidator<CreateOrderDto>
             })
             .WithMessage("One or more products were not found.")
             .When(o => o.Items.Any());
+
+        RuleFor(o => o.Items)
+            .MustAsync(async (items, ct) =>
+            {
+                var productIds = items.Select(i => i.ProductId).Distinct().ToList();
+                var products = await db.Products
+                    .Where(p => productIds.Contains(p.Id))
+                    .ToDictionaryAsync(p => p.Id, ct);
+
+                return items.All(i => products.TryGetValue(i.ProductId, out var product)
+                                      && product.Stock >= i.Quantity);
+            })
+            .WithMessage("One or more products do not have enough stock.")
+            .When(o => o.Items.Any());
     }
 }

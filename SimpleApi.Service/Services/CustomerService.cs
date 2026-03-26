@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleApi.Data;
 using SimpleApi.Data.Entities;
@@ -5,10 +6,12 @@ using SimpleApi.Service.DTOs.Customers;
 
 namespace SimpleApi.Service.Services;
 
-public class CustomerService(SimpleApiDbContext db) : ICustomerService
+public class CustomerService(SimpleApiDbContext db, IValidator<CreateCustomerDto> validator) : ICustomerService
 {
     public async Task<CustomerDto> CreateCustomerAsync(CreateCustomerDto dto, CancellationToken ct)
     {
+        await validator.ValidateAndThrowAsync(dto, ct);
+
         var customer = new Customer
         {
             Fullname = dto.Fullname,
