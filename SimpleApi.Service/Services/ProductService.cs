@@ -7,7 +7,7 @@ namespace SimpleApi.Service.Services;
 
 public class ProductService(SimpleApiDbContext db) : IProductService
 {
-    public async Task<int> CreateProductAsync(CreateProductDto dto)
+    public async Task<ProductDto> CreateProductAsync(CreateProductDto dto)
     {
         var product = new Product
         {
@@ -19,7 +19,32 @@ public class ProductService(SimpleApiDbContext db) : IProductService
         db.Products.Add(product);
         await db.SaveChangesAsync();
 
-        return product.Id;
+        return new ProductDto(product.Id, product.Name, product.Price, product.Stock);
+    }
+
+    public async Task<bool> DeleteProductAsync(int id)
+    {
+        var product = await db.Products.FindAsync(id);
+        if (product is null) return false;
+
+        db.Products.Remove(product);
+        await db.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto dto)
+    {
+        var product = await db.Products.FindAsync(id);
+        if (product is null) return null;
+
+        product.Name = dto.Name;
+        product.Price = dto.Price;
+        product.Stock = dto.Stock;
+
+        await db.SaveChangesAsync();
+
+        return new ProductDto(product.Id, product.Name, product.Price, product.Stock);
     }
 
     public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()

@@ -15,10 +15,27 @@ public class ProductsController(IProductService productService) : ControllerBase
         return Ok(products);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleted = await productService.DeleteProductAsync(id);
+        if (!deleted) return NotFound();
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDto dto)
+    {
+        var product = await productService.UpdateProductAsync(id, dto);
+        if (product is null) return NotFound();
+        return Ok(product);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
-        var id = await productService.CreateProductAsync(dto);
-        return CreatedAtAction(nameof(GetAll), new { id }, new { id });
+        var product = await productService.CreateProductAsync(dto);
+        return CreatedAtAction(nameof(Create), new { id = product.Id }, product);
     }
 }
