@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleApi.Service.DTOs.Customers;
 using SimpleApi.Service.Interfaces;
-using SimpleApi.Service.Services;
 
 namespace SimpleApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CustomersController(ICustomerService customerService) : ControllerBase
