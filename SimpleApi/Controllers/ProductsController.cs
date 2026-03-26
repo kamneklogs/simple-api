@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleApi.Service.DTOs.Products;
+using SimpleApi.Service.Interfaces;
 using SimpleApi.Service.Services;
 
 namespace SimpleApi.Controllers;

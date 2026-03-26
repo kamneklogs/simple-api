@@ -1,6 +1,6 @@
 using SimpleApi.Service.DTOs.Customers;
 
-namespace SimpleApi.Service.Services;
+namespace SimpleApi.Service.Interfaces;
 
 public interface ICustomerService
 {

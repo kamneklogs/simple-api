@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleApi.Service.DTOs.Orders;
+using SimpleApi.Service.Interfaces;
 using SimpleApi.Service.Services;
 
 namespace SimpleApi.Controllers;
@@ -13,6 +14,14 @@ public class OrdersController(IOrderService orderService) : ControllerBase
     {
         var orders = await orderService.GetAllOrdersAsync(ct);
         return Ok(orders);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id, CancellationToken ct)
+    {
+        var order = await orderService.GetOrderByIdAsync(id, ct);
+        if (order is null) return NotFound();
+        return Ok(order);
     }
 
     [HttpPost]

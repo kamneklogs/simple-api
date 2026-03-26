@@ -1,14 +1,19 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleApi.Data;
 using SimpleApi.Data.Entities;
 using SimpleApi.Service.DTOs.Products;
 
+using SimpleApi.Service.Interfaces;
+
 namespace SimpleApi.Service.Services;
 
-public class ProductService(SimpleApiDbContext db) : IProductService
+public class ProductService(SimpleApiDbContext db, IValidator<CreateProductDto> validator) : IProductService
 {
     public async Task<ProductDto> CreateProductAsync(CreateProductDto dto, CancellationToken ct)
     {
+        await validator.ValidateAndThrowAsync(dto, ct);
+
         var product = new Product
         {
             Name = dto.Name,

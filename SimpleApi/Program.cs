@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleApi.Data;
 using SimpleApi.Middlewares;
+using SimpleApi.Service.Interfaces;
 using SimpleApi.Service.Services;
 using SimpleApi.Service.Validators;
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderValidator>();
 
 builder.Services.AddDbContext<SimpleApiDbContext>(options =>

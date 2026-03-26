@@ -4,6 +4,8 @@ using SimpleApi.Data;
 using SimpleApi.Data.Entities;
 using SimpleApi.Service.DTOs.Customers;
 
+using SimpleApi.Service.Interfaces;
+
 namespace SimpleApi.Service.Services;
 
 public class CustomerService(SimpleApiDbContext db, IValidator<CreateCustomerDto> validator) : ICustomerService

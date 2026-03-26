@@ -4,6 +4,8 @@ using SimpleApi.Data;
 using SimpleApi.Data.Entities;
 using SimpleApi.Service.DTOs.Orders;
 
+using SimpleApi.Service.Interfaces;
+
 namespace SimpleApi.Service.Services;
 
 public class OrderService(SimpleApiDbContext db, IValidator<CreateOrderDto> validator) : IOrderService
@@ -13,6 +15,25 @@ public class OrderService(SimpleApiDbContext db, IValidator<CreateOrderDto> vali
         return await db.Orders
             .Select(o => new OrderDto(o.Id, o.OrderDate, o.Amount, o.CustomerId))
             .ToListAsync(ct);
+    }
+
+    public async Task<OrderDetailDto?> GetOrderByIdAsync(int id, CancellationToken ct)
+    {
+        var order = await db.Orders
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Product)
+            .FirstOrDefaultAsync(o => o.Id == id, ct);
+
+        if (order is null) return null;
+
+        var items = order.Items.Select(i => new OrderItemDto(
+            i.ProductId,
+            i.Product.Name,
+            i.Product.Price,
+            i.Quantity
+        ));
+
+        return new OrderDetailDto(order.Id, order.OrderDate, order.Amount, order.CustomerId, items);
     }
 
     public async Task<OrderDto?> CreateOrderAsync(CreateOrderDto dto, CancellationToken ct)
@@ -38,7 +59,11 @@ public class OrderService(SimpleApiDbContext db, IValidator<CreateOrderDto> vali
             Items = items
         };
 
+        foreach (var item in items)
+            products[item.ProductId].Stock -= item.Quantity;
+
         db.Orders.Add(order);
+
         await db.SaveChangesAsync(ct);
 
         return new OrderDto(order.Id, order.OrderDate, order.Amount, order.CustomerId);
