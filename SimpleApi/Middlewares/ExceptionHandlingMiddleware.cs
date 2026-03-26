@@ -24,11 +24,11 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
         }
         catch
         {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(new ProblemDetails
             {
-                Status = StatusCodes.Status400BadRequest,
-                Title = "An unexpected error occurred."
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "An unexpected error occurred. Please try again later."
             });
         }
     }

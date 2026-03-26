@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleApi.Data;
+using SimpleApi.Middlewares;
 using SimpleApi.Service.Services;
 using SimpleApi.Service.Validators;
 
@@ -28,6 +29,8 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<SimpleApiDbContext>();
     db.Database.EnsureCreated();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
