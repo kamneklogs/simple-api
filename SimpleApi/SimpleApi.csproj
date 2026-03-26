@@ -10,10 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimpleApi.Data\SimpleApi.Data.csproj" />
+    <ProjectReference Include="..\SimpleApi.Service\SimpleApi.Service.csproj" />
   </ItemGroup>
 
 </Project>
