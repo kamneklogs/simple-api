@@ -17,8 +17,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderValidator>();
 
 builder.Services.AddDbContext<SimpleApiDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Data Source=app.db"));
+    options.UseSqlite("Data Source=app.db"));
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();

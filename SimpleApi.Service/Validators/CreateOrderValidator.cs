@@ -7,16 +7,21 @@ namespace SimpleApi.Service.Validators;
 
 public class CreateOrderValidator : AbstractValidator<CreateOrderDto>
 {
+    public const string CustomerNotFoundMsg = "Customer not found.";
+    public const string EmptyItemsMsg = "Order must contain at least one item.";
+    public const string ProductNotFoundMsg = "One or more products were not found.";
+    public const string NotEnoughStockMsg = "One or more products do not have enough stock.";
+
     public CreateOrderValidator(SimpleApiDbContext db)
     {
         RuleFor(o => o.CustomerId)
             .GreaterThan(0)
             .MustAsync((id, ct) => db.Customers.AnyAsync(c => c.Id == id, ct))
-            .WithMessage("Customer not found.");
+            .WithMessage(CustomerNotFoundMsg);
 
         RuleFor(o => o.Items)
             .NotEmpty()
-            .WithMessage("Order must contain at least one item.");
+            .WithMessage(EmptyItemsMsg);
 
         RuleForEach(o => o.Items).ChildRules(item =>
         {
@@ -31,7 +36,7 @@ public class CreateOrderValidator : AbstractValidator<CreateOrderDto>
                 var foundCount = await db.Products.CountAsync(p => productIds.Contains(p.Id), ct);
                 return foundCount == productIds.Count;
             })
-            .WithMessage("One or more products were not found.")
+            .WithMessage(ProductNotFoundMsg)
             .When(o => o.Items.Any());
 
         RuleFor(o => o.Items)
@@ -45,7 +50,7 @@ public class CreateOrderValidator : AbstractValidator<CreateOrderDto>
                 return items.All(i => products.TryGetValue(i.ProductId, out var product)
                                       && product.Stock >= i.Quantity);
             })
-            .WithMessage("One or more products do not have enough stock.")
+            .WithMessage(NotEnoughStockMsg)
             .When(o => o.Items.Any());
     }
 }
