@@ -1,5 +1,7 @@
+using AutoMapper;
 using FluentAssertions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using SimpleApi.Service.DTOs.Products;
 using SimpleApi.Service.Services;
 using SimpleApi.Service.Validators;
@@ -8,9 +10,12 @@ namespace SimpleApi.Tests.Product;
 
 public class ProductServiceTests(TestBaseFixture fixture) : IClassFixture<TestBaseFixture>
 {
-    private readonly ProductService _sut = new(fixture.dbContext, new CreateProductValidator());
+    private readonly ProductService _sut = new(
+        fixture.dbContext,
+        new CreateProductValidator(),
+        fixture.ServiceProvider.GetRequiredService<IMapper>());
 
-    [Fact (DisplayName = "Create a product with valid data should succeed")]
+    [Fact(DisplayName = "Create a product with valid data should succeed")]
     public async Task CreateProduct_HappyPath()
     {
         // Arrange

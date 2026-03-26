@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleApi.Data;
+using SimpleApi.Service.Profiles;
 
 namespace SimpleApi.Tests;
 
@@ -30,11 +31,7 @@ public class TestBaseFixture : IDisposable
             o.EnableSensitiveDataLogging();
         });
 
-        services.AddPooledDbContextFactory<SimpleApiDbContext>(o =>
-        {
-            o.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
-            o.EnableSensitiveDataLogging();
-        });
+        services.AddAutoMapper(typeof(ProductProfile).Assembly);
 
         return services.BuildServiceProvider();
     }

@@ -1,3 +1,5 @@
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleApi.Data;
@@ -8,18 +10,13 @@ using SimpleApi.Service.Interfaces;
 
 namespace SimpleApi.Service.Services;
 
-public class ProductService(SimpleApiDbContext db, IValidator<CreateProductDto> validator) : IProductService
+public class ProductService(SimpleApiDbContext db, IValidator<CreateProductDto> validator, IMapper mapper) : IProductService
 {
     public async Task<ProductDto> CreateProductAsync(CreateProductDto dto, CancellationToken ct)
     {
         await validator.ValidateAndThrowAsync(dto, ct);
 
-        var product = new Product
-        {
-            Name = dto.Name,
-            Price = dto.Price,
-            Stock = dto.Stock
-        };
+        var product = mapper.Map<Product>(dto);
 
         db.Products.Add(product);
         await db.SaveChangesAsync(ct);
@@ -43,9 +40,7 @@ public class ProductService(SimpleApiDbContext db, IValidator<CreateProductDto> 
         var product = await db.Products.FindAsync([id], ct);
         if (product is null) return null;
 
-        product.Name = dto.Name;
-        product.Price = dto.Price;
-        product.Stock = dto.Stock;
+        mapper.Map(dto, product);
 
         await db.SaveChangesAsync(ct);
 
@@ -55,7 +50,7 @@ public class ProductService(SimpleApiDbContext db, IValidator<CreateProductDto> 
     public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(CancellationToken ct)
     {
         return await db.Products
-            .Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock))
+            .ProjectTo<ProductDto>(mapper.ConfigurationProvider)
             .ToListAsync(ct);
     }
 }
