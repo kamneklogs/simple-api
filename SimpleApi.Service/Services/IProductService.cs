@@ -4,8 +4,8 @@ namespace SimpleApi.Service.Services;
 
 public interface IProductService
 {
-    Task<ProductDto> CreateProductAsync(CreateProductDto dto);
-    Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-    Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto dto);
-    Task<bool> DeleteProductAsync(int id);
+    Task<ProductDto> CreateProductAsync(CreateProductDto dto, CancellationToken ct);
+    Task<IEnumerable<ProductDto>> GetAllProductsAsync(CancellationToken ct);
+    Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto dto, CancellationToken ct);
+    Task<bool> DeleteProductAsync(int id, CancellationToken ct);
 }

@@ -7,7 +7,7 @@ namespace SimpleApi.Service.Services;
 
 public class CustomerService(SimpleApiDbContext db) : ICustomerService
 {
-    public async Task<CustomerDto> CreateCustomerAsync(CreateCustomerDto dto)
+    public async Task<CustomerDto> CreateCustomerAsync(CreateCustomerDto dto, CancellationToken ct)
     {
         var customer = new Customer
         {
@@ -16,15 +16,15 @@ public class CustomerService(SimpleApiDbContext db) : ICustomerService
         };
 
         db.Customers.Add(customer);
-        await db.SaveChangesAsync();
+        await db.SaveChangesAsync(ct);
 
         return new CustomerDto(customer.Id, customer.Fullname, customer.Email);
     }
 
-    public async Task<IEnumerable<CustomerDto>> GetAllCustomersAsync()
+    public async Task<IEnumerable<CustomerDto>> GetAllCustomersAsync(CancellationToken ct)
     {
         return await db.Customers
             .Select(c => new CustomerDto(c.Id, c.Fullname, c.Email))
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 }
