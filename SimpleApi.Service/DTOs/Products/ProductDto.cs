@@ -1,4 +1,4 @@
-namespace SimpleApi.Service.DTOs;
+namespace SimpleApi.Service.DTOs.Products;
 
 public record ProductDto(
     int Id,

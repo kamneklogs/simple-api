@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SimpleApi.Service.DTOs;
+using SimpleApi.Service.DTOs.Products;
 using SimpleApi.Service.Services;
 
 namespace SimpleApi.Controllers;
@@ -36,6 +36,6 @@ public class ProductsController(IProductService productService) : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
         var product = await productService.CreateProductAsync(dto);
-        return CreatedAtAction(nameof(Create), new { id = product.Id }, product);
+        return CreatedAtAction(nameof(Create), product);
     }
 }

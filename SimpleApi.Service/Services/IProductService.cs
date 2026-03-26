@@ -1,4 +1,4 @@
-using SimpleApi.Service.DTOs;
+using SimpleApi.Service.DTOs.Products;
 
 namespace SimpleApi.Service.Services;
 
