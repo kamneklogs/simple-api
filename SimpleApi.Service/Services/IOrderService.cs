@@ -5,4 +5,5 @@ namespace SimpleApi.Service.Services;
 public interface IOrderService
 {
     Task<IEnumerable<OrderDto>> GetAllOrdersAsync(CancellationToken ct);
+    Task<OrderDto?> CreateOrderAsync(CreateOrderDto dto, CancellationToken ct);
 }

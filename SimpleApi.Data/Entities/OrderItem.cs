@@ -7,7 +7,6 @@ public class OrderItem
 {
     public int Id { get; set; }
     public int Quantity { get; set; }
-    public decimal UnitPrice { get; set; }
 
     public int OrderId { get; set; }
     public Order Order { get; set; } = null!;
@@ -29,7 +28,5 @@ internal class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
                .WithMany(p => p.OrderItems)
                .HasForeignKey(oi => oi.ProductId)
                .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Property(oi => oi.UnitPrice).HasColumnType("decimal(18,2)");
     }
 }
